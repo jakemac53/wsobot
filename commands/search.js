@@ -4,10 +4,12 @@ const TYPES = require('tedious').TYPES;
 const util = require('util');
 
 module.exports = {
+  // Unused right now, but lets you get a WS for a user based on roles they have.
   findWsForMessage: function(message) {
     const connection = new msSqlConnector.msSqlConnector();
     connection.connect().then(() => {
-      new connection.Request('SELECT ws.*, wss.name as StatusName FROM WhiteStar ws INNER JOIN WhiteStarStatus wss ON ws.StatusId = wss.Id WHERE StatusId = 1')
+      new connection.Request('SELECT ws.*, wss.name as StatusName FROM WhiteStar ws INNER JOIN WhiteStarStatus wss ON ws.StatusId = wss.Id WHERE Guild = @guild AND StatusId = 1')
+        .addParam('guild', TYPES.NVarChar, message.guild.id)
         .onComplete(function(count, datas) {
           var matching = [];
           for (var i = 0; i < datas.length; i++) {
