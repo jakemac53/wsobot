@@ -1,8 +1,21 @@
 const Tedious = require('tedious');
 const Promise = require('bluebird');
+const { db_user, db_password, db_server, db_name } = require('./config.json');
 
 module.exports = {
-	msSqlConnector: function(config) {
+	msSqlConnector: function() {
+		const config =
+			{
+				userName: db_user,
+				password: db_password,
+				server: db_server,
+				options:
+					{
+						database: db_name,
+						encrypt: true,
+						rowCollectionOnRequestDone: true,
+					},
+			};
 		const currentConnect = this;
 		currentConnect.config = config;
 		currentConnect.errorHandler;
