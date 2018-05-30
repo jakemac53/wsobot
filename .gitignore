@@ -1,6 +1,5 @@
 config.json
 node_modules
-.eslintrc.json
 db.js
 testSql.js
 .vscode
